@@ -32,7 +32,4 @@
 > - Service Impact: Fiber Optic users churn at the highest rate compared to DSL or No Internet plans.
 
 > ## Customer & Revenue Insights
-> 1. **Churn by Contract Type**
-  <p align="center">
-    <img src="Churn_by_contract_type.jpeg" alt= "Churn by contract type" height="900" width="900"/>
-  </p>
+![Telco Customer Churn Dashboard](img/TelcoChurnDashboard.png)
