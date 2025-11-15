@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path=":memory:" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="2566"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="telco_churn_cleaned" custom_title="0" dock_id="4" table="4,19:maintelco_churn_cleaned"/><dock_state state="000000ff00000000fd0000000100000002000005940000032afc0100000004fb000000160064006f0063006b00420072006f00770073006500310100000000000003560000000000000000fb000000160064006f0063006b00420072006f00770073006500320100000000000003560000000000000000fb000000160064006f0063006b00420072006f00770073006500330100000000000003560000000000000000fb000000160064006f0063006b00420072006f00770073006500340100000000000005940000012900ffffff000002b90000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="telco_churn_cleaned" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="108"/><column index="2" value="60"/><column index="3" value="101"/><column index="4" value="60"/><column index="5" value="92"/><column index="6" value="54"/><column index="7" value="104"/><column index="8" value="126"/><column index="9" value="116"/><column index="10" value="140"/><column index="11" value="140"/><column index="12" value="140"/><column index="13" value="140"/><column index="14" value="140"/><column index="15" value="140"/><column index="16" value="122"/><column index="17" value="119"/><column index="18" value="189"/><column index="19" value="122"/><column index="21" value="51"/><column index="22" value="130"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1*">Select * 
+From telco_churn
+Limit 1000;
+
+Select COUNT (*) AS total_rows
+From telco_churn;
+
+PRAGMA table_info(telco_churn);
+
+Select * 
+From telco_churn;
+
+Select 
+	SUM(CASE WHEN customerID IS NULL OR TRIM(customerID) = ' ' THEN 1 ELSE  0 END) AS missing_customerID,
+	SUM(CASE WHEN gender IS NULL OR TRIM(gender) = ' ' THEN 1 ELSE 0 END) AS missing_gender, 
+	SUM(CASE WHEN SeniorCitizen IS NULL OR TRIM(SeniorCitizen) = ' ' THEN 1 ELSE 0 END) AS missing_SeniorCitizen, 
+	SUM(CASE WHEN Partner IS NULL OR TRIM(Partner) = ' ' THEN 1 ELSE 0 END) AS missing_Partner, 
+	SUM(CASE WHEN Dependents IS NULL OR TRIM(Dependents) = ' ' THEN 1 ELSE 0 END) AS missing_Dependents, 
+	SUM(CASE WHEN tenure IS NULL OR TRIM(tenure) = ' ' THEN 1 ELSE 0 END) AS missing_tenure, 
+	SUM(CASE WHEN PhoneService IS NULL OR TRIM(PhoneService) = ' ' THEN 1 ELSE 0 END) AS missing_PhoneService,
+	SUM(CASE WHEN MultipleLines IS NULL OR TRIM(MultipleLines) = ' ' THEN 1 ELSE 0 END) AS missing_MultipleLines,
+	SUM(CASE WHEN InternetService IS NULL OR TRIM(InternetService) = ' ' THEN 1 ELSE 0 END) AS missing_InternetService, 
+	SUM(CASE WHEN OnlineSecurity IS NULL OR TRIM(OnlineSecurity) = ' ' THEN 1 ELSE 0 END) AS missing_OnlineSecurity, 
+	SUM(CASE WHEN OnlineBackup IS NULL OR TRIM(OnlineBackup) = ' ' THEN 1 ELSE 0 END) AS missing_OnlineBackup, 
+	SUM(CASE WHEN DeviceProtection IS NULL OR TRIM(DeviceProtection) = ' ' THEN 1 ELSE 0 END) AS missing_DeviceProtection, 
+	SUM(CASE WHEN TechSupport IS NULL OR TRIM(TechSupport) = ' ' THEN 1 ELSE 0 END) AS missing_TechSupport, 
+	SUM(CASE WHEN StreamingTV IS NULL OR TRIM(StreamingTV) = ' ' THEN 1 ELSE 0 END) AS missing_StreamingTV, 
+	SUM(CASE WHEN StreamingMovies IS NULL OR TRIM(StreamingMovies) = ' ' THEN 1 ELSE 0 END) AS missing_StreamingMovies,
+	SUM(CASE WHEN Contract IS NULL OR TRIM(Contract) = ' ' THEN 1 ELSE 0 END) AS missing_Contract, 
+	SUM(CASE WHEN PaperlessBilling IS NULL OR TRIM(PaperlessBilling) = ' ' THEN 1 ELSE 0 END) AS missing_PaperlessBilling,
+	SUM(CASE WHEN PaymentMethod IS NULL OR TRIM(PaymentMethod) = ' ' THEN 1 ELSE 0 END) AS missing_PaymentMethod, 
+	SUM(CASE WHEN MonthlyCharges IS NULL OR TRIM(MonthlyCharges) = ' ' THEN 1 ELSE 0 END) AS missing_MonthlyCharges, 
+	SUM(CASE WHEN TotalCharges IS NULL OR TRIM(TotalCharges) = ' ' THEN 1 ELSE 0 END) AS missing_TotalCharges, 
+	SUM(CASE WHEN Churn IS NULL OR TRIM(Churn) = ' ' THEN 1 ELSE 0 END) AS missing_Churn
+FROM telco_churn;
+	
+SELECT customerID, tenure, MonthlyCharges, TotalCharges
+FROM telco_churn
+WHERE TotalCharges IS NULL OR TRIM(TotalCharges) = ' ';
+
+UPDATE telco_churn
+SET  TotalCharges = 0 
+WHERE TotalCharges IS NULL OR TRIM(TotalCharges) = ' ' ;
+
+
+
+SELECT 
+	SUM(CASE WHEN TotalCharges IS NULL OR TRIM(TotalCharges) = ' ' THEN 1 ELSE 0 END) AS missing_TotalCharges
+FROM telco_churn;
+
+PRAGMA table_info(telco_churn);
+
+SELECT 
+	CAST(TotalCharges AS REAL) AS TotalCharges_numeric
+FROM telco_churn; 
+
+PRAGMA table_info(telco_churn);
+
+SELECT 
+	customerID,
+	COUNT(*) AS count
+FROM telco_churn
+GROUP BY customerID
+HAVING COUNT(*) &gt; 1;
+
+SELECT * 
+FROM telco_churn
+WHERE customerID IN ( 
+				SELECT customerID
+				FROM telco_churn
+				GROUP BY customerID
+				HAVING COUNT(*) &gt; 1
+)
+ORDER BY customerID;
+
+SELECT* 
+FROM telco_churn;
+
+UPDATE telco_churn
+SET gender = TRIM(gender), 
+		Partner = TRIM(Partner),
+		Dependents = TRIM(Dependents), 
+		InternetService = TRIM(InternetService), 
+		Contract = TRIM(Contract), 
+		PaymentMethod = TRIM(PaymentMethod),
+		Churn = TRIM(Churn); 
+		
+SELECT DISTINCT gender FROM telco_churn;
+SELECT DISTINCT InternetService FROM telco_churn; 
+SELECT DISTINCT PaymentMethod FROM telco_churn;
+
+SELECT * 
+FROM telco_churn; 
+
+SELECT customerID, tenure, MonthlyCharges
+FROM telco_churn
+WHERE tenure &lt;= 0 OR MonthlyCharges &lt;= 0;
+
+DELETE FROM telco_churn
+WHERE tenure &lt;= 0;
+
+SELECT * 
+FROM telco_churn;
+
+SELECT customerID, tenure, MonthlyCharges, TotalCharges, 
+				ROUND(tenure * MonthlyCharges, 2) AS Expected_Total
+FROM telco_churn
+WHERE tenure &gt; 0 
+AND ABS(TotalCharges - (tenure * MonthlyCharges)) &gt; 5;
+
+SELECT customerID, tenure, MonthlyCharges, TotalCharges
+FROM telco_churn
+WHERE TotalCharges IS NULL OR TRIM(TotalCharges) = ' ' OR TotalCharges = 0;
+
+SELECT customerID, Churn, tenure, TotalCharges
+FROM telco_churn
+WHERE Churn = 'No' AND (TotalCharges &lt;= 0 OR tenure &lt;= 0); 
+
+SELECT 
+		SUM(CASE WHEN typeof(tenure) != 'integer' THEN 1 ELSE 0 END) AS wrong_tenure_type, 
+		SUM(CASE WHEN typeof(MonthlyCharges) != 'real' THEN 1 ELSE 0 END) AS wrong_monthly_type, 
+		SUM(CASE WHEN typeof(TotalCharges) != 'real' THEN 1 ELSE 0 END) AS wrong_total_type
+FROM telco_churn;
+
+SELECT 
+		SUM(CASE WHEN tenure &lt;= 0 THEN 1 ELSE 0 END) AS invalid_tenure, 
+		SUM(CASE WHEN MonthlyCharges &lt;= 0 THEN 1 ELSE 0 END) AS invalid_monthly, 
+		SUM(CASE WHEN TotalCharges IS NULL OR TotalCharges &lt;= 0 THEN 1 ELSE 0 END) AS invalid_total
+FROM telco_churn;
+
+		
+SELECT COUNT(*)
+FROM telco_churn_cleaned;
+
+DELETE FROM telco_churn_cleaned;
+
+INSERT INTO telco_churn_cleaned
+SELECT * 
+FROM telco_churn 
+WHERE tenure &gt; 0 
+      AND MonthlyCharges &gt; 0 
+      AND TotalCharges IS NOT NULL
+      AND TotalCharges &gt; 0;
+
+
+</sql><current_tab id="0"/></tab_sql></sqlb_project>
